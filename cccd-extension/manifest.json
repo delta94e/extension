@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CCCD Extractor - Y Tế Cơ Sở",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "update_url": "https://delta94e.github.io/extension/update.xml",
   "description": "Trích xuất thông tin CCCD từ hệ thống quản lý Y tế cơ sở và fill vào file DOCX phiếu KSK NCT",
   "permissions": [
@@ -25,15 +25,23 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["template.enc"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "template.enc"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "background": {
