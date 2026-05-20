@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCCD Extractor</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="loginScreen" class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+    <div class="header" style="text-align: center; margin-bottom: 20px; border-bottom: none;">
+      <div class="header-icon" style="margin: 0 auto 10px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="32" height="32">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2>Yêu cầu mật khẩu</h2>
+      <p class="subtitle">Vui lòng nhập mật khẩu để sử dụng extension</p>
+    </div>
+    <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+      <input type="password" id="authPassword" placeholder="Nhập mật khẩu..." style="padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; width: 100%; box-sizing: border-box;">
+      <button id="btnLogin" class="btn btn-primary" style="width: 100%; justify-content: center;">Đăng nhập</button>
+      <div id="loginError" style="color: #dc2626; font-size: 13px; text-align: center; display: none;">Mật khẩu không chính xác!</div>
+    </div>
+  </div>
+
+  <!-- Main App Screen (Hidden by default) -->
+  <div id="mainScreen" class="container" style="display: none;">
+    <!-- Header -->
+    <div class="header">
+
+    <!-- Status Bar -->
+    <div class="status-bar" id="statusBar">
+      <div class="status-dot"></div>
+      <span id="statusText">Sẵn sàng trích xuất</span>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button id="btnExtract" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 019-9"/>
+        </svg>
+        <span>Trích xuất thông tin</span>
+      </button>
+      <button id="btnExport" class="btn btn-success" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+          <line x1="12" y1="18" x2="12" y2="12"/>
+          <polyline points="9,15 12,12 15,15"/>
+        </svg>
+        <span>Xuất file DOCX</span>
+      </button>
+    </div>
+
+    <!-- Section A: Thông tin hành chính -->
+    <div class="data-section" id="dataSection" style="display: none;">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="8.5" cy="7" r="4"/>
+        </svg>
+        <span>A. Thông tin hành chính</span>
+      </div>
+
+      <div class="data-grid">
+        <div class="data-item full-width">
+          <label>Họ và tên</label>
+          <div class="data-value" id="val_tenDayDu">—</div>
+        </div>
+        <div class="data-item">
+          <label>Giới tính</label>
+          <div class="data-value" id="val_gioiTinh">—</div>
+        </div>
+        <div class="data-item">
+          <label>Ngày sinh</label>
+          <div class="data-value" id="val_ngaySinh">—</div>
+        </div>
+        <div class="data-item">
+          <label>Năm sinh</label>
+          <div class="data-value" id="val_namSinh">—</div>
+        </div>
+        <div class="data-item">
+          <label>Số CMND/CCCD</label>
+          <div class="data-value" id="val_cmnd">—</div>
+        </div>
+        <div class="data-item">
+          <label>Dân tộc</label>
+          <div class="data-value" id="val_danToc">—</div>
+        </div>
+        <div class="data-item">
+          <label>Quốc tịch</label>
+          <div class="data-value" id="val_quocTich">—</div>
+        </div>
+        <div class="data-item full-width">
+          <label>Địa chỉ</label>
+          <div class="data-value" id="val_soNha">—</div>
+        </div>
+        <div class="data-item">
+          <label>Xã/Phường</label>
+          <div class="data-value" id="val_xaPhuong">—</div>
+        </div>
+        <div class="data-item">
+          <label>Tỉnh/TP</label>
+          <div class="data-value" id="val_tinhTP">—</div>
+        </div>
+        <div class="data-item">
+          <label>Số điện thoại</label>
+          <div class="data-value" id="val_dienThoaiDiDong">—</div>
+        </div>
+        <div class="data-item">
+          <label>Số thẻ BHYT</label>
+          <div class="data-value" id="val_soThe">—</div>
+        </div>
+        <div class="data-item full-width">
+          <label>Nghề nghiệp</label>
+          <div class="data-value" id="val_ngheNghiep">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section C: Chỉ số sinh tồn / Khám thực thể -->
+    <div class="data-section" id="vitalSection" style="display: none;">
+      <div class="section-title section-title-green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+        <span>C. Khám thực thể</span>
+      </div>
+
+      <div class="data-grid">
+        <div class="data-item">
+          <label>C1. Chiều cao</label>
+          <div class="data-value" id="val_chieuCao">—</div>
+        </div>
+        <div class="data-item">
+          <label>C2. Cân nặng</label>
+          <div class="data-value" id="val_canNang">—</div>
+        </div>
+        <div class="data-item">
+          <label>C3. Vòng bụng</label>
+          <div class="data-value" id="val_vongEo">—</div>
+        </div>
+        <div class="data-item">
+          <label>BMI</label>
+          <div class="data-value" id="val_bmi">—</div>
+        </div>
+        <div class="data-item">
+          <label>C4. Mạch</label>
+          <div class="data-value" id="val_mach">—</div>
+        </div>
+        <div class="data-item">
+          <label>C5-C6. Huyết áp</label>
+          <div class="data-value" id="val_huyetAp">—</div>
+        </div>
+        <div class="data-item">
+          <label>C7. Nhịp thở</label>
+          <div class="data-value" id="val_nhipTho">—</div>
+        </div>
+        <div class="data-item">
+          <label>Đường máu</label>
+          <div class="data-value" id="val_duongMau">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section D-G: Kết quả khám -->
+    <div class="data-section" id="clinicalSection" style="display: none;">
+      <div class="section-title section-title-amber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4"/>
+          <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+        </svg>
+        <span>Kết quả khám</span>
+      </div>
+
+      <div class="data-grid">
+        <div class="data-item full-width">
+          <label>Bệnh chính</label>
+          <div class="data-value" id="val_benhChinh">—</div>
+        </div>
+        <div class="data-item full-width">
+          <label>Kết quả khám</label>
+          <div class="data-value" id="val_ketQuaKham">—</div>
+        </div>
+        <div class="data-item full-width">
+          <label>Bác sĩ khám</label>
+          <div class="data-value" id="val_bacSiKham">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Note about B, D-D8 -->
+    <div class="info-note" id="infoNote" style="display: none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+      <div>
+        <strong>Phần B, D1-D8:</strong> Các mục tiền sử gia đình, tầm soát bệnh (đái tháo đường, phổi tắc nghẽn, hen, ung thư, trầm cảm, lo âu...) và đánh giá thể chất là phần khám lâm sàng — bác sĩ điền trực tiếp trên phiếu giấy.
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <span>Phiếu KSK NCT v3.0 • 2025</span>
+    </div>
+  </div> <!-- Close mainScreen -->
+
+  <script src="libs/jszip.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
