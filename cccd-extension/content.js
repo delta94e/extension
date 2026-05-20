@@ -27,14 +27,14 @@ function extractDataFromPage() {
     if (container) {
       const item = container.querySelector('nz-select-item');
       if (item) return item.getAttribute('title') || item.textContent?.trim() || '';
-      
+
       // Fallback: check for radio buttons (important for Giới tính)
       const checkedRadio = container.querySelector('input[type="radio"]:checked');
       if (checkedRadio) {
         const label = checkedRadio.closest('label');
         return label ? label.textContent?.trim() : checkedRadio.value;
       }
-      
+
       const selectedSpan = container.querySelector('.ant-select-selection-item');
       if (selectedSpan) return selectedSpan.getAttribute('title') || selectedSpan.textContent?.trim() || '';
     }

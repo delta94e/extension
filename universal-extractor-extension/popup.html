@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Universal Extractor</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="libs/jszip.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Universal Extractor</h2>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="extract">Trích xuất</button>
+      <button class="tab-btn" data-tab="settings">Cấu hình từ khoá</button>
+    </div>
+
+    <div id="statusBox" class="status-box hidden"></div>
+
+    <!-- TAB: EXTRACT -->
+    <div id="tab-extract" class="tab-content active">
+      <div class="action-group">
+        <button id="btnExtract" class="btn primary">🔄 Trích xuất dữ liệu</button>
+      </div>
+
+      <div class="data-preview">
+        <h3>Dữ liệu thu được:</h3>
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th>Trường (Key)</th>
+              <th>Giá trị (Value)</th>
+            </tr>
+          </thead>
+          <tbody id="dataTableBody">
+            <tr><td colspan="2" style="text-align: center; color: #888;">Chưa có dữ liệu</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="export-section">
+        <h3>Xuất File Word (.docx)</h3>
+        <div class="file-upload">
+          <label for="templateUpload">Chọn template tuỳ chỉnh (nếu có):</label>
+          <input type="file" id="templateUpload" accept=".docx">
+          <small>Nếu không chọn, sẽ dùng template mặc định.</small>
+        </div>
+        <button id="btnExport" class="btn secondary" disabled>📥 Xuất File Word</button>
+      </div>
+    </div>
+
+    <!-- TAB: SETTINGS -->
+    <div id="tab-settings" class="tab-content">
+      <p style="font-size: 13px; color: #555; margin-bottom: 15px;">
+        Thêm các từ khoá nhận diện cho mỗi trường. Ngăn cách các từ bằng dấu phẩy (,).
+      </p>
+      <div id="mappingForm" class="mapping-form">
+        <!-- Rows will be injected here via JS -->
+      </div>
+      <div class="settings-actions" style="margin-top: 15px;">
+        <button id="btnSaveSettings" class="btn primary">💾 Lưu cấu hình</button>
+        <button id="btnResetSettings" class="btn outline">Reset mặc định</button>
+      </div>
+    </div>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
